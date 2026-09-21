@@ -1,10 +1,10 @@
 const express = require("express");
-const { route } = require("../routes/usre.routes");
+const router = require("../routes/user.routes");
 const app = express();
 
 app.use(express.json());
 
 // Users api mount point
-app.use("/api", route);
+app.use("/api", router);
 
 module.exports = app;

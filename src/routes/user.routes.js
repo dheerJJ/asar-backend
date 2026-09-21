@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { query } = require("../config/db"); // Aapka db connection path
+const { query } = require("../config/db");
 
-// POST: Naya user add karne ke liye
 router.post("/users", async (req, res) => {
   const { name, email } = req.body;
 
@@ -12,7 +11,6 @@ router.post("/users", async (req, res) => {
   }
 
   try {
-    // Parameterized SQL Query (SQL Injection se bachne ke liye $1, $2 ka use)
     const sqlText =
       "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *";
     const values = [name, email];
@@ -26,8 +24,6 @@ router.post("/users", async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Insertion error:", error.message);
-
-    // Agar same email dobara save karne ki koshish karein (Unique Constraint Error)
     if (error.code === "23505") {
       return res
         .status(400)
@@ -38,4 +34,4 @@ router.post("/users", async (req, res) => {
   }
 });
 
-module.exports = router;  
+module.exports = router;
